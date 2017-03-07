@@ -76,10 +76,10 @@ public class SubMainActivity extends AppCompatActivity {
          * Setup Drawer Toggle of the Toolbar
          */
 
-        Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, toolbar,R.string.app_name,
                 R.string.app_name);
-
+        toolbar.setTitle("IMS");
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         mDrawerToggle.syncState();
@@ -88,6 +88,14 @@ public class SubMainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+//        getMenuInflater().inflate(R.menu.user_tab_main_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.user_tab_main_menu,menu);
         return true;
     }
@@ -95,7 +103,7 @@ public class SubMainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id=item.getItemId();
-        if(id==R.id.action_settings){
+        if(id==R.id.action_filter){
             Toast.makeText(SubMainActivity.this,"Filter",Toast.LENGTH_LONG).show();
             return true;
         }

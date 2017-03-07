@@ -28,12 +28,10 @@ public class UserTab extends Fragment {
     List<String> userNames= new ArrayList<>();
     private UserAdapter userAdapter;
     LinearLayoutManager linearLayoutManager;
-    private FloatingActionButton fabAddUSer;
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.user_tab_layout,container,false);
         rv_user=(RecyclerView)view.findViewById(R.id.rv_user);
-        fabAddUSer=(FloatingActionButton)view.findViewById(R.id.fabAddUSer);
 
         userNames.add("XXXXX");
         userNames.add("XXXXX");
@@ -52,14 +50,6 @@ public class UserTab extends Fragment {
         userAdapter = new UserAdapter();
         rv_user.setAdapter(userAdapter);
 
-        fabAddUSer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(),"Add User Invoked",Toast.LENGTH_LONG).show();
-                Intent addUserIntent = new Intent(getActivity(),AddUserActivity.class);
-                startActivity(addUserIntent);
-            }
-        });
 
         return view;
 
@@ -78,6 +68,13 @@ public class UserTab extends Fragment {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             ViewHolder viewHolder= (ViewHolder)holder;
             viewHolder.userName.setText(userNames.get(position));
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent userDetailsintent = new Intent(getActivity(),UserDetailsActivity.class);
+                    startActivity(userDetailsintent);
+                }
+            });
         }
 
         @Override

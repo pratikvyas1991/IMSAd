@@ -17,7 +17,7 @@ import java.util.List;
  * Created by tasol on 24/2/17.
  */
 
-public class StocksTab extends Fragment {
+public class AdminStocksTab extends Fragment {
     private RecyclerView rv_stocks;
     List<String> userNames= new ArrayList<>();
     LinearLayoutManager linearLayoutManager;
@@ -66,7 +66,7 @@ public class StocksTab extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(getActivity(),StocksDetailsActivity.class);
-                    intent.putExtra("isEditable",false);
+                    intent.putExtra("isEditable",true);
                     startActivity(intent);
                 }
             });

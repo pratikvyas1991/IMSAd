@@ -12,4 +12,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_change">Change</string>
+    <string name="title_activity_imshome">Home</string>
+    <string name="title_activity_imsadmin">Admin</string>
+    <string name="title_add_stock">Add Stock</string>
 </resources>
