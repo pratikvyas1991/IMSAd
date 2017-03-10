@@ -120,7 +120,7 @@ public class IMSHomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
             if (id == R.id.nav_add_user) {
-            Intent addUserIntent = new Intent(IMSHomeActivity.this,AddUserActivity.class);
+            Intent addUserIntent = new Intent(IMSHomeActivity.this,AddUserActivityDynamic.class);
                 startActivity(addUserIntent);
         } else if (id == R.id.nav_logout) {
                 getLogoutDialog();

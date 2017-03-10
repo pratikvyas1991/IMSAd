@@ -72,6 +72,11 @@
             android:label="@string/title_add_stock"
             android:theme="@style/AppTheme">
         </activity>
+        <activity
+            android:name=".AddUserActivityDynamic"
+            android:label="@string/title_add_stock"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>
