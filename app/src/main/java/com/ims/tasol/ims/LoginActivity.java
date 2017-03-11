@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,6 +25,9 @@ public class LoginActivity extends AppCompatActivity {
         final AVLoadingIndicatorView avi=(AVLoadingIndicatorView)findViewById(R.id.avi);
 
         final ImageView login_icon=(ImageView)findViewById(R.id.login_icon);
+
+        Animation animation= AnimationUtils.loadAnimation(LoginActivity.this,R.anim.clockwise);
+        login_icon.startAnimation(animation);
 
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override

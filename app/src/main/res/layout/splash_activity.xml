@@ -32,7 +32,7 @@
             android:layout_height="130dp"
             style="@style/AVLoadingIndicatorView"
             android:visibility="visible"
-            app:indicatorColor="@color/colorPrimaryDark"
+            app:indicatorColor="#F44336"
             app:indicatorName="BallSpinFadeLoaderIndicator"
         />
 

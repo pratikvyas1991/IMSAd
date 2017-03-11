@@ -57,10 +57,7 @@ public class StocksTab extends Fragment {
                 final StocksViewHolder holderFooter =(StocksViewHolder)holder;
 //                holderFooter.user_name.setText(userNames.get(position));
             if(position==3){
-                holderFooter.stockItemLayout.setBackgroundColor(getResources().getColor(R.color.user_stock_empty));
-            }
-            if(position==5){
-                holderFooter.stockItemLayout.setBackgroundColor(getResources().getColor(R.color.user_stock_full));
+                holderFooter.stockItemLayout.setBackgroundResource(R.drawable.empty_stock_back);
             }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

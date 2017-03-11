@@ -65,7 +65,7 @@ public class IMSHomeActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 //                Toast.makeText(IMSHomeActivity.this,"Add User Invoked",Toast.LENGTH_LONG).show();
-                Intent addUserIntent = new Intent(IMSHomeActivity.this,AddUserActivity.class);
+                Intent addUserIntent = new Intent(IMSHomeActivity.this,AddUserActivityDynamic.class);
                 startActivity(addUserIntent);
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
@@ -137,7 +137,7 @@ public class IMSHomeActivity extends AppCompatActivity
         final Dialog dialog = new Dialog(IMSHomeActivity.this);
         int IN_ATTENDEE_INDEX = 0;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.logout_layout);
+        dialog.setContentView(R.layout.filter_layout);
         String sortOrder = null;
         final TextView tvStartDate=(TextView)dialog.findViewById(R.id.tvStartDate);
         final TextView tvEndDate=(TextView)dialog.findViewById(R.id.tvEndDate);

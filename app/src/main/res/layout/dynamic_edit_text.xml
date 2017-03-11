@@ -5,21 +5,15 @@
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
     android:orientation="horizontal">
-
-    <android.support.v7.widget.AppCompatTextView
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/etDynamicLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="30"
-        android:text="Name"
-        android:textSize="15dp"/>
-
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/etDynamicValue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_weight="70"
-        android:text="asdadadsadsad"
-        android:textSize="15dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:textSize="20dp"
+            android:id="@+id/etDynamicValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"/>
+    </android.support.design.widget.TextInputLayout>
 </LinearLayout>
