@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent">
+
+   <android.support.v4.widget.NestedScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       >
+      <LinearLayout
+          android:background="#616161"
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+         <TextView
+             android:layout_margin="20dp"
+             android:text="Personal Information"
+             android:textColor="@android:color/white"
+             android:textSize="25dp"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"/>
+         <LinearLayout
+             android:orientation="vertical"
+             android:layout_marginRight="10dp"
+             android:layout_marginLeft="10dp"
+             android:background="@drawable/preview_block"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:background="@drawable/preview_block"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="Name :"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="35"
+                   android:layout_height="wrap_content"/>
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="Lorem Ipsum Banas"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="75"
+                   android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:background="@drawable/preview_block"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="Age :"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="35"
+                   android:layout_height="wrap_content"/>
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="25 Years"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="75"
+                   android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:background="@drawable/preview_block"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="Reason :"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="35"
+                   android:layout_height="wrap_content"/>
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="Lorem Ipsum Banas"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="75"
+                   android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+         </LinearLayout>
+         <TextView
+             android:layout_margin="20dp"
+             android:text="Particulars"
+             android:textColor="@android:color/white"
+             android:textSize="25dp"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"/>
+         <LinearLayout
+             android:orientation="vertical"
+             android:layout_marginRight="10dp"
+             android:layout_marginLeft="10dp"
+             android:background="@drawable/preview_block"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:background="@drawable/preview_block"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="Name :"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="35"
+                   android:layout_height="wrap_content"/>
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="Lorem Ipsum Banas"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="75"
+                   android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:background="@drawable/preview_block"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="Age :"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="35"
+                   android:layout_height="wrap_content"/>
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="25 Years"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="75"
+                   android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:background="@drawable/preview_block"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="Reason :"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="35"
+                   android:layout_height="wrap_content"/>
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="Lorem Ipsum Banas"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="75"
+                   android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+         </LinearLayout>
+         <TextView
+             android:layout_margin="20dp"
+             android:text="Total"
+             android:textColor="@android:color/white"
+             android:textSize="25dp"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"/>
+         <LinearLayout
+             android:orientation="vertical"
+             android:layout_marginRight="10dp"
+             android:layout_marginLeft="10dp"
+             android:layout_marginBottom="10dp"
+             android:background="@drawable/preview_block"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:background="@drawable/preview_block"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="Total :"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="35"
+                   android:layout_height="wrap_content"/>
+               <TextView
+                   android:layout_margin="10dp"
+                   android:text="200"
+                   android:textSize="20dp"
+                   android:textColor="@android:color/white"
+                   android:layout_width="0dp"
+                   android:layout_weight="75"
+                   android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+         </LinearLayout>
+      </LinearLayout>
+   </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

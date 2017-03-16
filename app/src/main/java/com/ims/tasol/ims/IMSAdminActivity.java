@@ -3,6 +3,7 @@ package com.ims.tasol.ims;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,8 +31,13 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import utils.database.IMSDatabaseHandler;
+
 public class IMSAdminActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    IMSDatabaseHandler handlerDB= new IMSDatabaseHandler(IMSAdminActivity.this);
+    SharedPreferences preferences;
 
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
@@ -45,6 +51,7 @@ public class IMSAdminActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        preferences=getSharedPreferences("imsPrefernece",IMSAdminActivity.this.MODE_PRIVATE);
 
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
@@ -142,6 +149,12 @@ public class IMSAdminActivity extends AppCompatActivity
         btnFilterApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String userType=preferences.getString("userType",null);
+                if(userType.equals("admin")){
+                    handlerDB.updateRecord("USERS","isLoggedIn","false","admin");
+                }else{
+                    handlerDB.updateRecord("USERS","isLoggedIn","false","user");
+                }
                 Intent logout= new Intent(IMSAdminActivity.this,LoginActivity.class);
                 startActivity(logout);
             }

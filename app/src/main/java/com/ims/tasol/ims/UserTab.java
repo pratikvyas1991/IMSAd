@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,8 +17,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ims.tasol.ims.model.CustomerDetails;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import utils.database.IMSDatabaseHandler;
 
 /**
  * Created by tasol on 24/2/17.
@@ -28,11 +33,16 @@ public class UserTab extends Fragment {
     List<String> userNames= new ArrayList<>();
     private UserAdapter userAdapter;
     LinearLayoutManager linearLayoutManager;
+    IMSDatabaseHandler helperDB;
+    CustomerDetails customerDetails;
+    ArrayList<String> tableColumnsNames= new ArrayList<>();
+    ArrayList<String> tableColumnsTypes= new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.user_tab_layout,container,false);
         rv_user=(RecyclerView)view.findViewById(R.id.rv_user);
-
+        helperDB= new IMSDatabaseHandler(getActivity());
         userNames.add("XXXXX");
         userNames.add("XXXXX");
         userNames.add("AAAAAAA AAAAAAAAa");
@@ -49,7 +59,18 @@ public class UserTab extends Fragment {
         rv_user.setLayoutManager(linearLayoutManager);
         userAdapter = new UserAdapter();
         rv_user.setAdapter(userAdapter);
+        Log.v("@@@WWE"," All users");
+        customerDetails= new CustomerDetails();
 
+        helperDB.setTABLE_NAME("CUST_DETAILS");
+        if(customerDetails.getTableColumnsName().size()>0){
+            tableColumnsNames=customerDetails.getTableColumnsName();
+            tableColumnsTypes=customerDetails.getTableColumnsType();
+        }
+        helperDB.setColumnNameList(tableColumnsNames);
+        helperDB.setColumnTypeList(tableColumnsTypes);
+        helperDB.addTable();
+        userDetails ();
 
         return view;
 
@@ -90,5 +111,10 @@ public class UserTab extends Fragment {
                 userName=(TextView)itemView.findViewById(R.id.userName);
             }
         }
+    }
+
+    public void userDetails (){
+//        Log.v("@@@WE"," total row count "+helperDB.countAllRows("CUST_DETAILS"));
+        helperDB.getAllCustomerRows("CUST_DETAILS");
     }
 }

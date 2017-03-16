@@ -3,6 +3,7 @@ package com.ims.tasol.ims;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.text.SimpleDateFormat;
 import android.media.Image;
@@ -36,14 +37,20 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Locale;
 
+import utils.database.IMSDatabaseHandler;
+
 public class IMSHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    IMSDatabaseHandler handlerDB= new IMSDatabaseHandler(IMSHomeActivity.this);
+    SharedPreferences preferences;
 
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
     FloatingActionButton fabAddUSer;
     String sortOrder[]={"Select Order","ascending","descending"};
     ArrayAdapter<String> sortAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +58,7 @@ public class IMSHomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        preferences=getSharedPreferences("imsPrefernece",IMSHomeActivity.this.MODE_PRIVATE);
 
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
@@ -226,6 +234,13 @@ public class IMSHomeActivity extends AppCompatActivity
         btnFilterApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                String userType=preferences.getString("userType",null);
+                if(userType.equals("admin")){
+                    handlerDB.updateRecord("USERS","isLoggedIn","false","admin");
+                }else{
+                    handlerDB.updateRecord("USERS","isLoggedIn","false","user");
+                }
                 Intent logout= new Intent(IMSHomeActivity.this,LoginActivity.class);
                 startActivity(logout);
             }

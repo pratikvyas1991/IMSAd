@@ -3,6 +3,7 @@ package com.ims.tasol.ims;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
@@ -23,9 +24,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ims.tasol.ims.model.CustomerDetails;
+import com.wang.avi.AVLoadingIndicatorView;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+
+import utils.database.IMSDatabaseHandler;
 
 /**
  * Created by tasol on 24/2/17.
@@ -39,7 +46,13 @@ public class AddUserActivityDynamic extends AppCompatActivity {
     public ArrayList<FormDataPojo> rowList= new ArrayList<>();
     public String[] organization={"veergati","gauravtrading"};
     public ArrayAdapter<String> adapter;
+    IMSDatabaseHandler helperDB;
 
+    CustomerDetails customerDetails;
+    ArrayList<String> tableColumnsNames= new ArrayList<>();
+    ArrayList<String> tableColumnsTypes= new ArrayList<>();
+    ArrayList<String> tableValues= new ArrayList<>();
+    AVLoadingIndicatorView avi;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,48 +71,57 @@ public class AddUserActivityDynamic extends AppCompatActivity {
         adapter= new ArrayAdapter<String>(AddUserActivityDynamic.this,R.layout.support_simple_spinner_dropdown_item,organization);
         btnPreview = (Button) findViewById(R.id.btnPreview);
 
+        avi=(AVLoadingIndicatorView)findViewById(R.id.avi);
+        helperDB= new IMSDatabaseHandler(AddUserActivityDynamic.this);
+
+//
+        createUserTable();
 
         //populating class
 
         FormDataPojo dataPojoTitleTextView= new FormDataPojo("personalTitle","title","1","Personal Information","value");
-        FormDataPojo dataPojoFirstNameEditText= new FormDataPojo("firstName","edit_text","1","First Name","value");
-        FormDataPojo dataPojoSecondNameEditText= new FormDataPojo("secondName","edit_text","1","Second Name","value");
+
+        FormDataPojo dataPojoNameEditText= new FormDataPojo("custName","edit_text","1","Name","value");
+        FormDataPojo dataPojoAgeEditText= new FormDataPojo("custAge","number","1","Age","value");
         FormDataPojo dataPojoGenderRadio= new FormDataPojo("gender","radiobutton","1","Gender","value");
-        FormDataPojo dataPojoAgeEditText= new FormDataPojo("age","number","1","Age","value");
-        FormDataPojo dataPojoOrgSpinner= new FormDataPojo("orga","spinner","1","Organization","value");
-        FormDataPojo dataPojoBaansCheckBox= new FormDataPojo("baans","checkbox","1","Baans","value");
-        FormDataPojo dataPojoChiptaCheckBox= new FormDataPojo("chipta","checkbox","1","Chipta","value");
+        FormDataPojo dataPojoReasonEditText= new FormDataPojo("reason","edit_text","1","Reason","value");
 
-        FormDataPojo dataPojoTitleRelTextView= new FormDataPojo("relative","title","1","Relative's Information","value");
-        FormDataPojo dataPojoRelFirstNameEditText= new FormDataPojo("relfirstName","edit_text","1","First Name","value");
-        FormDataPojo dataPojoRelSecondNameEditText= new FormDataPojo("relsecondName","edit_text","1","Second Name","value");
 
-        FormDataPojo dataPojoProduct1CheckBox= new FormDataPojo("Product1","checkbox","1","Baans","value");
-        FormDataPojo dataPojoProduct2CheckBox= new FormDataPojo("Product2","checkbox","1","Chipta","value");
-        FormDataPojo dataPojoProduct3CheckBox= new FormDataPojo("Product3","checkbox","1","Baans","value");
-        FormDataPojo dataPojoProduct4CheckBox= new FormDataPojo("Product4","checkbox","1","Chipta","value");
-        FormDataPojo dataPojoProduct5CheckBox= new FormDataPojo("Product5","checkbox","1","Baans","value");
-        FormDataPojo dataPojoProduct6CheckBox= new FormDataPojo("Product6","checkbox","1","Chipta","value");
+        FormDataPojo dataPojoRelativeNameEditText= new FormDataPojo("relName","edit_text","1","Relative Name","value");
+        FormDataPojo dataPojoRelativeRelationEditText= new FormDataPojo("relRelation","edit_text","1","Relative Relation","value");
+        FormDataPojo dataPojoMobileNumberEditText= new FormDataPojo("relMobile","number","1","Mobile","value");
+
+        FormDataPojo dataPojoRelativeAddressEditText= new FormDataPojo("relAddress","edit_text","1","Address","value");
+
+
+
+//          custID
+//         custName
+//         custAge
+//         custGender;
+//         custReason;
+//         custRelativeName;
+//         custRelativeRelation;
+//         custRelativeMobileNumber;
+//         custRelativeAddress;
+//         custTimeOfBill;
+//         custDateOfBill;
+//
 
 
         rowList.add(dataPojoTitleTextView);
-        rowList.add(dataPojoFirstNameEditText);
-        rowList.add(dataPojoSecondNameEditText);
-        rowList.add(dataPojoGenderRadio);
-        rowList.add(dataPojoOrgSpinner);
-        rowList.add(dataPojoAgeEditText);
-        rowList.add(dataPojoBaansCheckBox);
-        rowList.add(dataPojoChiptaCheckBox);
 
-        rowList.add(dataPojoTitleRelTextView);
-        rowList.add(dataPojoRelFirstNameEditText);
-        rowList.add(dataPojoRelSecondNameEditText);
-        rowList.add(dataPojoProduct1CheckBox);
-        rowList.add(dataPojoProduct2CheckBox);
-        rowList.add(dataPojoProduct3CheckBox);
-        rowList.add(dataPojoProduct4CheckBox);
-        rowList.add(dataPojoProduct5CheckBox);
-        rowList.add(dataPojoProduct6CheckBox);
+        rowList.add(dataPojoNameEditText);
+        rowList.add(dataPojoAgeEditText);
+        rowList.add(dataPojoGenderRadio);
+        rowList.add(dataPojoReasonEditText);
+
+        rowList.add(dataPojoRelativeNameEditText);
+        rowList.add(dataPojoRelativeRelationEditText);
+        rowList.add(dataPojoMobileNumberEditText);
+        rowList.add(dataPojoRelativeAddressEditText);
+
+
 
 
         parentLayout = (LinearLayout) findViewById(R.id.parentLayout);
@@ -182,8 +204,10 @@ public class AddUserActivityDynamic extends AppCompatActivity {
         btnPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(AddUserActivityDynamic.this,PreviewActivity.class);
-                startActivity(intent);
+                avi.setVisibility(View.VISIBLE);
+                saveUser();
+//                Intent intent =new Intent(AddUserActivityDynamic.this,PreviewActivity.class);
+//                startActivity(intent);
             }
         });
 
@@ -241,5 +265,82 @@ public class AddUserActivityDynamic extends AppCompatActivity {
             Log.v("@@@WWE", " Name : " + rowList.get(z).getName()+ " Value : " + rowList.get(z).getValue());
         }
 
+    }
+
+
+    public void createUserTable(){
+        customerDetails = new CustomerDetails();
+
+        helperDB.setTABLE_NAME("CUST_DETAILS");
+
+
+        if(customerDetails.getTableColumnsName().size()>0){
+            tableColumnsNames=customerDetails.getTableColumnsName();
+            tableColumnsTypes=customerDetails.getTableColumnsType();
+        }
+
+        helperDB.setColumnNameList(tableColumnsNames);
+        helperDB.setColumnTypeList(tableColumnsTypes);
+        helperDB.addTable();
+    }
+
+    public void saveUser(){
+
+        helperDB.getTableList();
+
+        Log.v("@@@WWE"," table rows before add");
+        helperDB.displayAllRows("CUST_DETAILS");
+
+        getResult();
+        Calendar calendar=Calendar.getInstance();
+
+
+        int sec=calendar.get(Calendar.SECOND);
+        int min=calendar.get(Calendar.MINUTE);
+        int hrs=calendar.get(Calendar.HOUR);
+
+        int day=calendar.get(Calendar.DATE);
+        int month=calendar.get(Calendar.MONTH);
+        int year=calendar.get(Calendar.YEAR);
+
+        String time=String.valueOf(hrs)+"."+String.valueOf(min)+"."+String.valueOf(sec);
+        String date=String.valueOf(day)+"."+String.valueOf(month)+"."+String.valueOf(year);
+
+
+
+
+        int custID=helperDB.countAllRows("CUST_DETAILS")+1;
+
+        Log.v("@@@WE"," Date "+date);
+        Log.v("@@@WE"," Time "+time);
+        Log.v("@@@WE"," New Cust ID "+custID);
+
+        if(custID!=0){
+            tableValues.add(String.valueOf(custID));
+        }
+        for (int y = 1; y < rowList.size(); y++) {
+            if(!rowList.get(y).getType().equalsIgnoreCase("title")){
+                tableValues.add(rowList.get(y).getValue());
+            }
+
+        }
+        customerDetails = new CustomerDetails();
+        tableColumnsNames=customerDetails.getTableColumnsName();
+        tableValues.add(time);
+        tableValues.add(date);
+//        Log.v("@@WWE","Table Values size: "+tableValues.size());
+//        Log.v("@@WWE","Table Values size: "+tableValues.toString());
+//        Log.v("@@WWE","Table Column Names  size: "+tableColumnsNames.size());
+
+        Log.v("@@WWE","Table Rows  size: "+helperDB.countAllRows("CUST_DETAILS"));
+
+
+        helperDB.addTableRow("CUST_DETAILS",tableColumnsNames,tableValues);
+
+        helperDB.displayAllRows("CUST_DETAILS");
+        Snackbar snackbar=Snackbar.make(parentLayout,"Customer Added",Snackbar.LENGTH_LONG);
+        snackbar.show();
+        avi.setVisibility(View.GONE);
+        supportFinishAfterTransition();
     }
 }
