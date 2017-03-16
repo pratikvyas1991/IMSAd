@@ -41,6 +41,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"/>
                 <TextView
+                    android:id="@+id/userDate"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="90"
                     android:gravity="left"
@@ -64,6 +65,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"/>
                 <TextView
+                    android:id="@+id/userTime"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="90"
                     android:gravity="left"

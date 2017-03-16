@@ -37,6 +37,7 @@ public class UserTab extends Fragment {
     CustomerDetails customerDetails;
     ArrayList<String> tableColumnsNames= new ArrayList<>();
     ArrayList<String> tableColumnsTypes= new ArrayList<>();
+    ArrayList<CustomerDetails> customerList= new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
@@ -88,7 +89,12 @@ public class UserTab extends Fragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             ViewHolder viewHolder= (ViewHolder)holder;
-            viewHolder.userName.setText(userNames.get(position));
+            CustomerDetails customer=customerList.get(position);
+
+            viewHolder.userName.setText(customer.getCustName());
+            viewHolder.userDate.setText(customer.getCustDateOfBill());
+            viewHolder.userTime.setText(customer.getCustTimeOfBill());
+
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -100,21 +106,29 @@ public class UserTab extends Fragment {
 
         @Override
         public int getItemCount() {
-            return userNames.size();
+            return customerList.size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder{
-            public TextView userName;
+            public TextView userName,userDate,userTime;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 userName=(TextView)itemView.findViewById(R.id.userName);
+                userDate=(TextView)itemView.findViewById(R.id.userDate);
+                userTime=(TextView)itemView.findViewById(R.id.userTime);
             }
         }
     }
 
     public void userDetails (){
-//        Log.v("@@@WE"," total row count "+helperDB.countAllRows("CUST_DETAILS"));
-        helperDB.getAllCustomerRows("CUST_DETAILS");
+        Log.v("@@@WE"," total row count "+helperDB.countAllRows("CUST_DETAILS"));
+        customerList= helperDB.getAllCustomerRows("CUST_DETAILS");
+        Log.v("@@WE"," Final Values ");
+
+        for (int p = 0; p < customerList.size(); p++) {
+
+            Log.v("@@CUST"," Cust "+customerList.toString());
+        }
     }
 }

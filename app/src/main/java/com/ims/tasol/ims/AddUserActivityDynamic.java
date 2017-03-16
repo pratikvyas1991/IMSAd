@@ -52,6 +52,7 @@ public class AddUserActivityDynamic extends AppCompatActivity {
     ArrayList<String> tableColumnsNames= new ArrayList<>();
     ArrayList<String> tableColumnsTypes= new ArrayList<>();
     ArrayList<String> tableValues= new ArrayList<>();
+    HashMap<String,String> finalTableValues= new HashMap<>();
     AVLoadingIndicatorView avi;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,22 +77,28 @@ public class AddUserActivityDynamic extends AppCompatActivity {
 
 //
         createUserTable();
+//        deleteTable();
 
         //populating class
+
+
+
+
+        // when inflating make sure name of pojo and field name is same ,it will help later on
 
         FormDataPojo dataPojoTitleTextView= new FormDataPojo("personalTitle","title","1","Personal Information","value");
 
         FormDataPojo dataPojoNameEditText= new FormDataPojo("custName","edit_text","1","Name","value");
         FormDataPojo dataPojoAgeEditText= new FormDataPojo("custAge","number","1","Age","value");
-        FormDataPojo dataPojoGenderRadio= new FormDataPojo("gender","radiobutton","1","Gender","value");
-        FormDataPojo dataPojoReasonEditText= new FormDataPojo("reason","edit_text","1","Reason","value");
+        FormDataPojo dataPojoGenderRadio= new FormDataPojo("custGender","radiobutton","1","Gender","value");
+        FormDataPojo dataPojoReasonEditText= new FormDataPojo("custReason","edit_text","1","Reason","value");
 
 
-        FormDataPojo dataPojoRelativeNameEditText= new FormDataPojo("relName","edit_text","1","Relative Name","value");
-        FormDataPojo dataPojoRelativeRelationEditText= new FormDataPojo("relRelation","edit_text","1","Relative Relation","value");
-        FormDataPojo dataPojoMobileNumberEditText= new FormDataPojo("relMobile","number","1","Mobile","value");
+        FormDataPojo dataPojoRelativeNameEditText= new FormDataPojo("custRelativeName","edit_text","1","Relative Name","value");
+        FormDataPojo dataPojoRelativeRelationEditText= new FormDataPojo("custRelativeRelation","edit_text","1","Relative Relation","value");
+        FormDataPojo dataPojoMobileNumberEditText= new FormDataPojo("custRelativeMobileNumber","number","1","Mobile","value");
 
-        FormDataPojo dataPojoRelativeAddressEditText= new FormDataPojo("relAddress","edit_text","1","Address","value");
+        FormDataPojo dataPojoRelativeAddressEditText= new FormDataPojo("custRelativeAddress","edit_text","1","Address","value");
 
 
 
@@ -317,30 +324,48 @@ public class AddUserActivityDynamic extends AppCompatActivity {
 
         if(custID!=0){
             tableValues.add(String.valueOf(custID));
+            finalTableValues.put("custID",String.valueOf(custID));
         }
         for (int y = 1; y < rowList.size(); y++) {
             if(!rowList.get(y).getType().equalsIgnoreCase("title")){
                 tableValues.add(rowList.get(y).getValue());
+                finalTableValues.put(rowList.get(y).getName(),rowList.get(y).getValue());
             }
 
         }
         customerDetails = new CustomerDetails();
         tableColumnsNames=customerDetails.getTableColumnsName();
         tableValues.add(time);
+        finalTableValues.put("custTimeOfBill",String.valueOf(time));
         tableValues.add(date);
+        finalTableValues.put("custDateOfBill",String.valueOf(date));
+
+
 //        Log.v("@@WWE","Table Values size: "+tableValues.size());
 //        Log.v("@@WWE","Table Values size: "+tableValues.toString());
 //        Log.v("@@WWE","Table Column Names  size: "+tableColumnsNames.size());
+//        Log.v("@@WWE","Table Column Names  Values "+tableColumnsNames.toString());
+//
+//        Log.v("@@WWE","Table Final table Values Size  "+finalTableValues.size());
+//        Log.v("@@WWE","Table Final table Values  "+finalTableValues.toString());
 
-        Log.v("@@WWE","Table Rows  size: "+helperDB.countAllRows("CUST_DETAILS"));
+        helperDB.addTableRowFromHash("CUST_DETAILS",finalTableValues);
 
 
-        helperDB.addTableRow("CUST_DETAILS",tableColumnsNames,tableValues);
+//        Log.v("@@WWE","Table Rows  size: "+helperDB.countAllRows("CUST_DETAILS"));
+
+
+
+//        helperDB.addTableRow("CUST_DETAILS",tableColumnsNames,tableValues);
 
         helperDB.displayAllRows("CUST_DETAILS");
         Snackbar snackbar=Snackbar.make(parentLayout,"Customer Added",Snackbar.LENGTH_LONG);
         snackbar.show();
         avi.setVisibility(View.GONE);
         supportFinishAfterTransition();
+    }
+
+    public void deleteTable(){
+        helperDB.deleteTable("CUST_DETAILS");
     }
 }

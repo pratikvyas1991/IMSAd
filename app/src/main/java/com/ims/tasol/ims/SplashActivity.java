@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.ims.tasol.ims.model.Users;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -65,6 +66,8 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void goToLogin(){
+        Toast.makeText(SplashActivity.this,"Login",Toast.LENGTH_LONG).show();
+        Log.v("@@@WWELogin","WELCOME Login");
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -78,6 +81,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void goToAdmin(){
+        Toast.makeText(SplashActivity.this,"Admin",Toast.LENGTH_LONG).show();
         Log.v("@@@WWE","WELCOME ADMIN");
         handler.postDelayed(new Runnable() {
             @Override
@@ -91,6 +95,7 @@ public class SplashActivity extends AppCompatActivity {
         },5000);
     }
     public void goToUser(){
+        Toast.makeText(SplashActivity.this,"User",Toast.LENGTH_LONG).show();
         Log.v("@@@WWE","WELCOME USER");
         handler.postDelayed(new Runnable() {
             @Override

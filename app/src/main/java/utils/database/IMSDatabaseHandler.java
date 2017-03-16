@@ -15,6 +15,9 @@ import java.lang.reflect.Field;
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by tasol on 14/3/17.
@@ -82,6 +85,23 @@ public class IMSDatabaseHandler extends SQLiteOpenHelper {
             contentValues.put(keys.get(k),values.get(k));
         }
         database.insert(tableName,null,contentValues);
+        database.close();
+    }
+
+    public void addTableRowFromHash(String tableName,HashMap<String,String>rows){
+        SQLiteDatabase database=this.getWritableDatabase();
+
+        ContentValues contentValues=new ContentValues();
+        Log.v("@@WWE","HAsh Map Key And Value");
+        Set keys=rows.keySet();
+        for (Iterator i=keys.iterator();i.hasNext();){
+            String key=(String)i.next();
+            String value=(String)rows.get(key);
+            contentValues.put(key,value);
+            Log.v("@@WWE","Key : "+key+" Value : "+value);
+        }
+        database.insert(tableName,null,contentValues);
+        Log.v("@@@WWE","Record Added");
         database.close();
     }
 
@@ -198,22 +218,32 @@ public class IMSDatabaseHandler extends SQLiteOpenHelper {
         return count;
     }
 
-    public void getAllCustomerRows(String tableName){
+    public ArrayList<CustomerDetails> getAllCustomerRows(String tableName){
         ArrayList<CustomerDetails> allRec= new ArrayList<>();
         CustomerDetails details= new CustomerDetails();
         String selectQuery="SELECT * FROM "+tableName;
         SQLiteDatabase db=this.getWritableDatabase();
         Cursor cursor=db.rawQuery(selectQuery,null);
         int rowSize=countAllRows(tableName);
+
         for (int d = 0; d < rowSize; d++) {
+            cursor.moveToFirst();
             details.populateCustomerDetails(cursor);
             allRec.add(details);
+            if(!cursor.isLast()){
+                cursor.moveToNext();
+            }
         }
-        Log.v("@@@WWE"," List "+allRec.toString());
+
+        CustomerDetails details1= new CustomerDetails();
+
+        for (int w = 0; w < allRec.size(); w++) {
+            details1=allRec.get(w);
+            Log.v("@@@CUST"," CUST ID "+details1.getCustID()+" Cust Name "+details1.getCustName());
+        }
 
 
-
-//        return allRec;
+        return allRec;
     }
 
 
