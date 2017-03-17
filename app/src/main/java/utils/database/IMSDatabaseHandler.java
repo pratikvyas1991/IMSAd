@@ -321,42 +321,62 @@ public class IMSDatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-//    public void createUserTable(){
-//        users = new Users();
+    public ArrayList<CustomerDetails> getAllCustomerRowsDateSorted(String tableName,String startDate,String endDate){
+
+        ArrayList<CustomerDetails> allRec= new ArrayList<>();
+        CustomerDetails details= new CustomerDetails();
+        allRec.clear();
+        String selectQuery="select * from " + tableName + " where custDateOfBill BETWEEN '" + startDate + "' AND '" + endDate + "' ORDER BY custDateOfBill ASC,"+null+";";
+        SQLiteDatabase db=this.getWritableDatabase();
+        Cursor cursor=db.rawQuery(selectQuery,null);
+        int rowSize=countAllRows(tableName);
+
+        cursor.moveToFirst();
+        CustomerDetails detailsF;
+        if(cursor.moveToFirst()) {
+            do {
+                detailsF = new CustomerDetails();
+                detailsF.setCustID(cursor.getString(cursor.getColumnIndex("custID")));
+                detailsF.setCustName(cursor.getString(cursor.getColumnIndex("custName")));
+                detailsF.setCustAge(cursor.getString(cursor.getColumnIndex("custAge")));
+                detailsF.setCustGender(cursor.getString(cursor.getColumnIndex("custGender")));
+                detailsF.setCustReason(cursor.getString(cursor.getColumnIndex("custReason")));
+                detailsF.setCustRelativeName(cursor.getString(cursor.getColumnIndex("custRelativeName")));
+                detailsF.setCustRelativeRelation(cursor.getString(cursor.getColumnIndex("custRelativeRelation")));
+                detailsF.setCustRelativeMobileNumber(cursor.getString(cursor.getColumnIndex("custRelativeMobileNumber")));
+                detailsF.setCustRelativeAddress(cursor.getString(cursor.getColumnIndex("custRelativeAddress")));
+                detailsF.setCustTimeOfBill(cursor.getString(cursor.getColumnIndex("custTimeOfBill")));
+                detailsF.setCustDateOfBill(cursor.getString(cursor.getColumnIndex("custDateOfBill")));
+
+                allRec.add(detailsF);
+            } while (cursor.moveToNext());
+        }
+
+        CustomerDetails details1= new CustomerDetails();
+
+        for (int w = 0; w < allRec.size(); w++) {
+            details1=allRec.get(w);
+            Log.v("@@@Date Sorted"," CUST ID "+details1.getCustID()+" Cust Name "+details1.getCustName());
+        }
+
+
+        return allRec;
+    }
+
+
+    public void trialCheck(){
+//        SQLiteDatabase db=this.getWritableDatabase();
+//        String createQuery="CREATE TABLE userscheck(" +
+//                "    id INTEGER PRIMARY KEY," +
+//                "    username TEXT," +
+//                "    created_at DATETIME DEFAULT CURRENT_TIMESTAMP" +
+//                ");";
+//        db.execSQL(createQuery);
 //
-//        handler.setTABLE_NAME("USERS");
+//        Log.v("@@@TAB","Trial Table Created");
 //
-//        if(users.getTableColumnsName().size()>0){
-//            tableColumnsNames=users.getTableColumnsName();
-//            tableColumnsTypes=users.getTableColumnsType();
-//        }
-//        handler.setColumnNameList(tableColumnsNames);
-//        handler.setColumnTypeList(tableColumnsTypes);
-//    }
-//
-//    public void addColumn(String first,String second,String third){
-//        //inserting new rows hrere
-//        ArrayList<String> valuesTab=new ArrayList<>();
-//
-//        valuesTab.add(first);
-//        valuesTab.add(second);
-//        valuesTab.add(third);
-//
-//        //inserting new rows into the table
-//        handler.addTableRow("USERS",tableColumnsNames,valuesTab);
-//
-//    }
-//
-//    public void printTableRows(){
-//        handler.displayAllRows("USERS");
-//    }
-//
-//    public void updateRow(){
-////        handler.updateRecord("USERS","userName","mario","admin");
-//    }
-//
-//    public void deleteTable(){
-//        handler.deleteTable("USERS");
-//    }
+//        Log.v("@@@TAB","Trial Table Created");
+//        db.execSQL("INSERT INTO userscheck(username, created_at) VALUES('vyas','datetime()'");
+    }
 
 }

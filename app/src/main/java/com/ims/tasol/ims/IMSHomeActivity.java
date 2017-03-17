@@ -51,6 +51,13 @@ public class IMSHomeActivity extends AppCompatActivity
     String sortOrder[]={"Select Order","ascending","descending"};
     ArrayAdapter<String> sortAdapter;
 
+    public FragmentRefreshListener fragmentRefreshListener;
+
+
+    public static boolean isFilterActivated=false;
+    public static String startDate="";
+    public static String endDate="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,7 +209,16 @@ public class IMSHomeActivity extends AppCompatActivity
         btnFilterApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                IMSHomeActivity.isFilterActivated=true;
+                IMSHomeActivity.startDate=tvStartDate.getText().toString();
+                IMSHomeActivity.endDate=tvEndDate.getText().toString();
+
+                if(getFragmentRefreshListener()!=null){
+                    getFragmentRefreshListener().onRefresh(tvStartDate.getText().toString(),tvEndDate.getText().toString());
+                }
+                dialog.dismiss();
                 Snackbar.make(view, "Start Date: "+tvStartDate.getText().toString()+" End Date: "+tvEndDate.getText().toString()+" Order: "+ finalSortOrder, Snackbar.LENGTH_LONG).show();
+
             }
         });
 
@@ -253,4 +269,14 @@ public class IMSHomeActivity extends AppCompatActivity
         dialog.getWindow().setAttributes(lp);
     }
 
+    public interface FragmentRefreshListener{
+        void onRefresh(String startDate,String endDate);
+    }
+
+    public FragmentRefreshListener getFragmentRefreshListener(){
+        return fragmentRefreshListener;
+    }
+    public void setFragmentRefreshListener(FragmentRefreshListener fragmentRefreshListener){
+        this.fragmentRefreshListener=fragmentRefreshListener;
+    }
 }

@@ -61,7 +61,31 @@ public class UserTab extends Fragment {
         helperDB.setColumnNameList(tableColumnsNames);
         helperDB.setColumnTypeList(tableColumnsTypes);
         helperDB.addTable();
+
+        helperDB.trialCheck();
+
+
+        if(IMSHomeActivity.isFilterActivated){
+            Log.v("@@@FILTER","Start Date "+IMSHomeActivity.startDate);
+            Log.v("@@@FILTER","Start Date "+IMSHomeActivity.endDate);
+        }else{
+            Log.v("@@@FILTER","Start Date "+IMSHomeActivity.startDate);
+            Log.v("@@@FILTER","Start Date "+IMSHomeActivity.endDate);
+        }
         userDetails ();
+
+
+        ((IMSHomeActivity)getActivity()).setFragmentRefreshListener(new IMSHomeActivity.FragmentRefreshListener(){
+
+            @Override
+            public void onRefresh(String startDate, String endDate) {
+                Log.v("@@@FILTEr"," Start Date "+startDate.toString());
+                Log.v("@@@FILTEr"," End  Date "+endDate.toString());
+
+                userDetailDateSorted("CUST_DETAILS",startDate,endDate);
+            }
+        });
+
 
         return view;
 
@@ -125,4 +149,18 @@ public class UserTab extends Fragment {
             Log.v("@@CUST"," Cust "+customerList.toString());
         }
     }
+
+    public void userDetailDateSorted(String tableName,String startDate,String endDate){
+        customerList= helperDB.getAllCustomerRowsDateSorted("CUST_DETAILS",startDate,endDate);
+        Log.v("@@DATE"," Final Values ");
+
+        for (int p = 0; p < customerList.size(); p++) {
+
+            Log.v("@@Date"," Cust "+customerList.toString());
+        }
+    }
+
+
+
+
 }

@@ -28,8 +28,11 @@ import com.ims.tasol.ims.model.CustomerDetails;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import utils.database.IMSDatabaseHandler;
@@ -294,6 +297,7 @@ public class AddUserActivityDynamic extends AppCompatActivity {
         helperDB.setColumnNameList(tableColumnsNames);
         helperDB.setColumnTypeList(tableColumnsTypes);
         helperDB.addTable();
+        helperDB.deletValuesFromTable("CUST_DETAILS_TEMP");
     }
 
     public void saveUser(){
@@ -315,16 +319,17 @@ public class AddUserActivityDynamic extends AppCompatActivity {
         int month=calendar.get(Calendar.MONTH);
         int year=calendar.get(Calendar.YEAR);
 
-        String time=String.valueOf(hrs)+"."+String.valueOf(min)+"."+String.valueOf(sec);
-        String date=String.valueOf(day)+"."+String.valueOf(month)+"."+String.valueOf(year);
+        String timeStr=String.valueOf(hrs)+"."+String.valueOf(min)+"."+String.valueOf(sec);
+        String dateStr=String.valueOf(day)+"."+String.valueOf(month)+"."+String.valueOf(year);
+
 
 
 
 
         custID=helperDB.countAllRows(TABLE_NAME)+1;
 
-        Log.v("@@@WE"," Date "+date);
-        Log.v("@@@WE"," Time "+time);
+        Log.v("@@@WE"," Date "+dateStr);
+        Log.v("@@@WE"," Time "+timeStr);
         Log.v("@@@WE"," New Cust ID "+custID);
 
         if(custID!=0){
@@ -340,10 +345,13 @@ public class AddUserActivityDynamic extends AppCompatActivity {
         }
         customerDetails = new CustomerDetails();
         tableColumnsNames=customerDetails.getTableColumnsName();
-        tableValues.add(time);
-        finalTableValues.put("custTimeOfBill",String.valueOf(time));
-        tableValues.add(date);
-        finalTableValues.put("custDateOfBill",String.valueOf(date));
+//        tableValues.add(time);
+
+
+
+        finalTableValues.put("custTimeOfBill",String.valueOf(timeStr));
+//        tableValues.add(date);
+        finalTableValues.put("custDateOfBill",String.valueOf(dateStr));
 
 
 
