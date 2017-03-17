@@ -43,19 +43,9 @@ public class UserTab extends Fragment {
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.user_tab_layout,container,false);
         rv_user=(RecyclerView)view.findViewById(R.id.rv_user);
+
         helperDB= new IMSDatabaseHandler(getActivity());
-        userNames.add("XXXXX");
-        userNames.add("XXXXX");
-        userNames.add("AAAAAAA AAAAAAAAa");
-        userNames.add("XXXXX");
-        userNames.add("XXXXX");
-        userNames.add("AAAAAAA AAAAAAAAa");
-        userNames.add("XXXXX");
-        userNames.add("XXXXX");
-        userNames.add("AAAAAAA AAAAAAAAa");
-        userNames.add("XXXXX");
-        userNames.add("XXXXX");
-        userNames.add("AAAAAAA AAAAAAAAa");
+
         linearLayoutManager = new LinearLayoutManager(getActivity());
         rv_user.setLayoutManager(linearLayoutManager);
         userAdapter = new UserAdapter();
@@ -89,7 +79,7 @@ public class UserTab extends Fragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             ViewHolder viewHolder= (ViewHolder)holder;
-            CustomerDetails customer=customerList.get(position);
+            final CustomerDetails customer=customerList.get(position);
 
             viewHolder.userName.setText(customer.getCustName());
             viewHolder.userDate.setText(customer.getCustDateOfBill());
@@ -99,6 +89,8 @@ public class UserTab extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent userDetailsintent = new Intent(getActivity(),UserDetailsActivity.class);
+                    userDetailsintent.putExtra("custID",customer.getCustID());
+                    userDetailsintent.putExtra("tableName","CUST_DETAILS");
                     startActivity(userDetailsintent);
                 }
             });
@@ -124,6 +116,8 @@ public class UserTab extends Fragment {
     public void userDetails (){
         Log.v("@@@WE"," total row count "+helperDB.countAllRows("CUST_DETAILS"));
         customerList= helperDB.getAllCustomerRows("CUST_DETAILS");
+
+
         Log.v("@@WE"," Final Values ");
 
         for (int p = 0; p < customerList.size(); p++) {

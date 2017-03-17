@@ -25,6 +25,7 @@ public class SplashActivity extends AppCompatActivity {
     ArrayList<String> tableColumnsNames= new ArrayList<>();
     ArrayList<String> tableColumnsTypes= new ArrayList<>();
     Users users;
+    public String TABLE_NAME="USERS";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -38,25 +39,25 @@ public class SplashActivity extends AppCompatActivity {
 
         users = new Users();
 
-        Log.v("@@@We"," Checking Started");
+        int rowCount=0;
 
-        handlerDB.setTABLE_NAME("USERS");
-        if(users.getTableColumnsName().size()>0){
-            tableColumnsNames=users.getTableColumnsName();
-            tableColumnsTypes=users.getTableColumnsType();
+//        handlerDB.deleteTable(TABLE_NAME);
+
+        Log.v("@@@TAB","Splash Checking Table Existance "+TABLE_NAME);
+        if(handlerDB.isTableExist(TABLE_NAME)){
+            Log.v("@@@TAB","Table Exist");
+            rowCount=handlerDB.countAllRows(TABLE_NAME);
+            Log.v("@@TAB"," row count "+rowCount);
+        }else{
+            Log.v("@@@TAB","No Table Exist");
         }
 
-        handlerDB.setColumnNameList(tableColumnsNames);
-        handlerDB.setColumnTypeList(tableColumnsTypes);
-        handlerDB.addTable();
-
-        int rowCount=handlerDB.countAllRows("USERS");
 
         if(rowCount>0){
-            if(handlerDB.isLoggedIn("USERS","admin")||handlerDB.isLoggedIn("USERS","user")){
-                if(handlerDB.isLoggedIn("USERS","admin")){
+            if(handlerDB.isLoggedIn(TABLE_NAME,"admin")||handlerDB.isLoggedIn(TABLE_NAME,"user")){
+                if(handlerDB.isLoggedIn(TABLE_NAME,"admin")){
                     goToAdmin();
-                }else if(handlerDB.isLoggedIn("USERS","user")){
+                }else if(handlerDB.isLoggedIn(TABLE_NAME,"user")){
                     goToUser();
                 }
             }
@@ -66,7 +67,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void goToLogin(){
-        Toast.makeText(SplashActivity.this,"Login",Toast.LENGTH_LONG).show();
+//        Toast.makeText(SplashActivity.this,"Login",Toast.LENGTH_LONG).show();
         Log.v("@@@WWELogin","WELCOME Login");
         handler.postDelayed(new Runnable() {
             @Override
@@ -81,7 +82,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void goToAdmin(){
-        Toast.makeText(SplashActivity.this,"Admin",Toast.LENGTH_LONG).show();
+//        Toast.makeText(SplashActivity.this,"Admin",Toast.LENGTH_LONG).show();
         Log.v("@@@WWE","WELCOME ADMIN");
         handler.postDelayed(new Runnable() {
             @Override
@@ -95,7 +96,7 @@ public class SplashActivity extends AppCompatActivity {
         },5000);
     }
     public void goToUser(){
-        Toast.makeText(SplashActivity.this,"User",Toast.LENGTH_LONG).show();
+//        Toast.makeText(SplashActivity.this,"User",Toast.LENGTH_LONG).show();
         Log.v("@@@WWE","WELCOME USER");
         handler.postDelayed(new Runnable() {
             @Override

@@ -8,7 +8,7 @@
         android:id="@+id/txtTitle"
         android:visibility="visible"
         android:text="Veergati"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:textColor="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

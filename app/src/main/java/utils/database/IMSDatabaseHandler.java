@@ -120,6 +120,7 @@ public class IMSDatabaseHandler extends SQLiteOpenHelper {
             }while (cursor.moveToNext());
         }
     }
+
     public boolean isLoggedIn(String tableName,String key){
         HashMap<String,String> row= new HashMap<>();
         SQLiteDatabase db=this.getWritableDatabase();
@@ -197,8 +198,6 @@ public class IMSDatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(TABLE_CREATE);
     }
 
-
-
     public int countAllRows(String tableName){
         int count=0;
         String selectQuery="SELECT * FROM "+tableName;
@@ -219,20 +218,34 @@ public class IMSDatabaseHandler extends SQLiteOpenHelper {
     }
 
     public ArrayList<CustomerDetails> getAllCustomerRows(String tableName){
+
         ArrayList<CustomerDetails> allRec= new ArrayList<>();
         CustomerDetails details= new CustomerDetails();
+        allRec.clear();
         String selectQuery="SELECT * FROM "+tableName;
         SQLiteDatabase db=this.getWritableDatabase();
         Cursor cursor=db.rawQuery(selectQuery,null);
         int rowSize=countAllRows(tableName);
 
-        for (int d = 0; d < rowSize; d++) {
-            cursor.moveToFirst();
-            details.populateCustomerDetails(cursor);
-            allRec.add(details);
-            if(!cursor.isLast()){
-                cursor.moveToNext();
-            }
+        cursor.moveToFirst();
+        CustomerDetails detailsF;
+        if(cursor.moveToFirst()) {
+            do {
+                detailsF = new CustomerDetails();
+                detailsF.setCustID(cursor.getString(cursor.getColumnIndex("custID")));
+                detailsF.setCustName(cursor.getString(cursor.getColumnIndex("custName")));
+                detailsF.setCustAge(cursor.getString(cursor.getColumnIndex("custAge")));
+                detailsF.setCustGender(cursor.getString(cursor.getColumnIndex("custGender")));
+                detailsF.setCustReason(cursor.getString(cursor.getColumnIndex("custReason")));
+                detailsF.setCustRelativeName(cursor.getString(cursor.getColumnIndex("custRelativeName")));
+                detailsF.setCustRelativeRelation(cursor.getString(cursor.getColumnIndex("custRelativeRelation")));
+                detailsF.setCustRelativeMobileNumber(cursor.getString(cursor.getColumnIndex("custRelativeMobileNumber")));
+                detailsF.setCustRelativeAddress(cursor.getString(cursor.getColumnIndex("custRelativeAddress")));
+                detailsF.setCustTimeOfBill(cursor.getString(cursor.getColumnIndex("custTimeOfBill")));
+                detailsF.setCustDateOfBill(cursor.getString(cursor.getColumnIndex("custDateOfBill")));
+
+                allRec.add(detailsF);
+            } while (cursor.moveToNext());
         }
 
         CustomerDetails details1= new CustomerDetails();
@@ -244,6 +257,67 @@ public class IMSDatabaseHandler extends SQLiteOpenHelper {
 
 
         return allRec;
+    }
+
+    public CustomerDetails getSingleCustomerRows(String tableName,String custID){
+
+        CustomerDetails details= new CustomerDetails();
+        String selectQuery="SELECT * FROM "+tableName+" WHERE custID = "+custID;
+        SQLiteDatabase db=this.getWritableDatabase();
+        Cursor cursor=db.rawQuery(selectQuery,null);
+        int rowSize=countAllRows(tableName);
+
+        cursor.moveToFirst();
+        CustomerDetails detailsF=null;
+        if(cursor.moveToFirst()) {
+            do {
+                detailsF = new CustomerDetails();
+                detailsF.setCustID(cursor.getString(cursor.getColumnIndex("custID")));
+                detailsF.setCustName(cursor.getString(cursor.getColumnIndex("custName")));
+                detailsF.setCustAge(cursor.getString(cursor.getColumnIndex("custAge")));
+                detailsF.setCustGender(cursor.getString(cursor.getColumnIndex("custGender")));
+                detailsF.setCustReason(cursor.getString(cursor.getColumnIndex("custReason")));
+                detailsF.setCustRelativeName(cursor.getString(cursor.getColumnIndex("custRelativeName")));
+                detailsF.setCustRelativeRelation(cursor.getString(cursor.getColumnIndex("custRelativeRelation")));
+                detailsF.setCustRelativeMobileNumber(cursor.getString(cursor.getColumnIndex("custRelativeMobileNumber")));
+                detailsF.setCustRelativeAddress(cursor.getString(cursor.getColumnIndex("custRelativeAddress")));
+                detailsF.setCustTimeOfBill(cursor.getString(cursor.getColumnIndex("custTimeOfBill")));
+                detailsF.setCustDateOfBill(cursor.getString(cursor.getColumnIndex("custDateOfBill")));
+
+            } while (cursor.moveToNext());
+        }
+
+
+        return detailsF;
+    }
+
+    //Is Table Exist
+    public boolean isTableExist(String tableName){
+        SQLiteDatabase db=this.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+
+        if (c.moveToFirst()) {
+            while ( !c.isAfterLast() ) {
+                if(c.getString(0).equals(tableName)){
+                    Log.v("@WWE","Table Name=> "+c.getString(0));
+                    return true;
+                }
+                c.moveToNext();
+            }
+        }
+        return false;
+    }
+
+    public void copyTableValue(String source,String destination){
+        SQLiteDatabase db=this.getWritableDatabase();
+        String string="INSERT INTO "+destination+" SELECT * FROM "+source+";";
+        db.execSQL(string);
+    }
+
+    public void deletValuesFromTable(String tableName){
+        SQLiteDatabase db=this.getWritableDatabase();
+        db.execSQL("delete from "+ tableName);
+        Log.v("@@@TAB"," Table "+tableName+" is empty now");
     }
 
 

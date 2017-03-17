@@ -47,6 +47,9 @@ public class AddUserActivityDynamic extends AppCompatActivity {
     public String[] organization={"veergati","gauravtrading"};
     public ArrayAdapter<String> adapter;
     IMSDatabaseHandler helperDB;
+    CustomerDetails details;
+    int custID=0;
+    public String TABLE_NAME="CUST_DETAILS_TEMP";
 
     CustomerDetails customerDetails;
     ArrayList<String> tableColumnsNames= new ArrayList<>();
@@ -74,7 +77,7 @@ public class AddUserActivityDynamic extends AppCompatActivity {
 
         avi=(AVLoadingIndicatorView)findViewById(R.id.avi);
         helperDB= new IMSDatabaseHandler(AddUserActivityDynamic.this);
-
+        details= new CustomerDetails();
 //
         createUserTable();
 //        deleteTable();
@@ -213,8 +216,10 @@ public class AddUserActivityDynamic extends AppCompatActivity {
             public void onClick(View view) {
                 avi.setVisibility(View.VISIBLE);
                 saveUser();
-//                Intent intent =new Intent(AddUserActivityDynamic.this,PreviewActivity.class);
-//                startActivity(intent);
+                Intent intent =new Intent(AddUserActivityDynamic.this,PreviewActivity.class);
+                intent.putExtra("custID",String.valueOf(custID));
+                intent.putExtra("tableName",TABLE_NAME);
+                startActivity(intent);
             }
         });
 
@@ -278,7 +283,7 @@ public class AddUserActivityDynamic extends AppCompatActivity {
     public void createUserTable(){
         customerDetails = new CustomerDetails();
 
-        helperDB.setTABLE_NAME("CUST_DETAILS");
+        helperDB.setTABLE_NAME(TABLE_NAME);
 
 
         if(customerDetails.getTableColumnsName().size()>0){
@@ -296,7 +301,7 @@ public class AddUserActivityDynamic extends AppCompatActivity {
         helperDB.getTableList();
 
         Log.v("@@@WWE"," table rows before add");
-        helperDB.displayAllRows("CUST_DETAILS");
+        helperDB.displayAllRows(TABLE_NAME);
 
         getResult();
         Calendar calendar=Calendar.getInstance();
@@ -316,7 +321,7 @@ public class AddUserActivityDynamic extends AppCompatActivity {
 
 
 
-        int custID=helperDB.countAllRows("CUST_DETAILS")+1;
+        custID=helperDB.countAllRows(TABLE_NAME)+1;
 
         Log.v("@@@WE"," Date "+date);
         Log.v("@@@WE"," Time "+time);
@@ -341,31 +346,23 @@ public class AddUserActivityDynamic extends AppCompatActivity {
         finalTableValues.put("custDateOfBill",String.valueOf(date));
 
 
-//        Log.v("@@WWE","Table Values size: "+tableValues.size());
-//        Log.v("@@WWE","Table Values size: "+tableValues.toString());
-//        Log.v("@@WWE","Table Column Names  size: "+tableColumnsNames.size());
-//        Log.v("@@WWE","Table Column Names  Values "+tableColumnsNames.toString());
-//
-//        Log.v("@@WWE","Table Final table Values Size  "+finalTableValues.size());
-//        Log.v("@@WWE","Table Final table Values  "+finalTableValues.toString());
 
-        helperDB.addTableRowFromHash("CUST_DETAILS",finalTableValues);
-
-
-//        Log.v("@@WWE","Table Rows  size: "+helperDB.countAllRows("CUST_DETAILS"));
+        helperDB.addTableRowFromHash(TABLE_NAME,finalTableValues);
 
 
 
-//        helperDB.addTableRow("CUST_DETAILS",tableColumnsNames,tableValues);
 
-        helperDB.displayAllRows("CUST_DETAILS");
+
+
+        helperDB.displayAllRows(TABLE_NAME);
         Snackbar snackbar=Snackbar.make(parentLayout,"Customer Added",Snackbar.LENGTH_LONG);
         snackbar.show();
         avi.setVisibility(View.GONE);
+
         supportFinishAfterTransition();
     }
 
     public void deleteTable(){
-        helperDB.deleteTable("CUST_DETAILS");
+        helperDB.deleteTable(TABLE_NAME);
     }
 }
